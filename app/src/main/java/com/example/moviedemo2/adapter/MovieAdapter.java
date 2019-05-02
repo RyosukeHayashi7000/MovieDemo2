@@ -1,6 +1,5 @@
 package com.example.moviedemo2.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import com.example.moviedemo2.R;
 import com.example.moviedemo2.model.Movie;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
@@ -23,13 +22,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         void onClick(Movie movie);
     }
 
-    private Context context;
-    private ArrayList<Movie> movieArrayList;
+   // private Context context;
+    private List<Movie> movieArrayList;
     private MovieClickListener listener;
 
-    public MovieAdapter (Context context, ArrayList<Movie> movieArrayList, MovieClickListener listener) {
+    public MovieAdapter (ArrayList<Movie> movieArrayList, MovieClickListener listener) {
 
-        this.context = context;
+   //     this.context = context;
         this.movieArrayList = movieArrayList;
         this.listener = listener;
 
@@ -51,7 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         String imagePath = "https://image.tmdb.org/t/p/w500" + movieArrayList.get(position).getPosterPath();
 
-        Glide.with(context)
+        Glide.with(movieViewHolder.movieImage.getContext())
                 .load(imagePath)
                 .into(movieViewHolder.movieImage);
 
@@ -83,6 +82,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                     if (position != RecyclerView.NO_POSITION) ;
 
                     Movie selectedMovie = movieArrayList.get(position);
+                    //DetailActivity.createIntent(context,selectedMovie);
                     listener.onClick(selectedMovie);
 
                 }
