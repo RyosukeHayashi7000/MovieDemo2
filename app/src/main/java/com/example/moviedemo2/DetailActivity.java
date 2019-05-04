@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
+import com.example.moviedemo2.adapter.MovieDetailAdapter;
 import com.example.moviedemo2.model.Movie;
 
 public class DetailActivity extends AppCompatActivity {
 
     public static final String MOVIE_ID = "movie_id";
     private Movie movie;
+    private RecyclerView recyclerView;
+    private MovieDetailAdapter movieDetailAdapter;
 
     public static void createIntent(Context context, Movie movie) {
         if (movie == null) {
@@ -33,8 +37,19 @@ public class DetailActivity extends AppCompatActivity {
         if (intent.hasExtra(MOVIE_ID)){
             movie = getIntent().getParcelableExtra(MOVIE_ID);
 
-            TextView textView = (TextView)findViewById(R.id.tvTitle2);
-            textView.setText(movie.getTitle());
+            recyclerView = (RecyclerView) findViewById(R.id.rvdMovie);
+            movieDetailAdapter = new MovieDetailAdapter(movie);
+
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+
+            recyclerView.setHasFixedSize(true);
+
+            recyclerView.setLayoutManager(llm);
+
+            recyclerView.setAdapter(movieDetailAdapter);
+
+//            TextView textView = (TextView)findViewById(R.id.tvTitle2);
+//            textView.setText(movie.getTitle());
         }
 
 
