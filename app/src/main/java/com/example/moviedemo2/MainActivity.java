@@ -66,13 +66,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void test(Movie movie) {
+        DetailActivity.createIntent(this, movie);
+    }
+
     private void ShowOnRecyclerView() {
 
         recyclerView = (RecyclerView) findViewById(R.id.rMovie);
         movieAdapter = new MovieAdapter(movies, new MovieAdapter.MovieClickListener() {
             @Override
             public void onClick(Movie movie) {
-                DetailActivity.createIntent(getApplicationContext(), movie);
+                test(movie);
             }
         });
 
