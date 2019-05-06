@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.moviedemo2.R;
+import com.example.moviedemo2.databinding.MovieItemsListBinding;
 import com.example.moviedemo2.model.Movie;
 
 import java.util.ArrayList;
@@ -45,14 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
-        movieViewHolder.movieTitle.setText(movieArrayList.get(position).getTitle());
-        movieViewHolder.rate.setText(Double.toString(movieArrayList.get(position).getVoteAverage()));
-
-        String imagePath = "https://image.tmdb.org/t/p/w500" + movieArrayList.get(position).getPosterPath();
-
-        Glide.with(movieViewHolder.movieImage.getContext())
-                .load(imagePath)
-                .into(movieViewHolder.movieImage);
+        movieViewHolder.setData(position);
 
     }
 
@@ -66,13 +60,27 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         public TextView movieTitle, rate;
         public ImageView movieImage;
+        MovieItemsListBinding binding;
 
-        public MovieViewHolder(View itemView){
+        public MovieViewHolder(View itemView) {
             super(itemView);
 
-            movieImage = (ImageView)itemView.findViewById(R.id.ivMovie);
-            movieTitle = (TextView)itemView.findViewById(R.id.tvTitle);
-            rate = (TextView)itemView.findViewById(R.id.tvRating);
+            binding = MovieItemsListBinding.bind(itemView);
+        }
+        public void setData(int position) {
+
+            binding.tvTitle.setText(movieArrayList.get(position).getTitle());
+            binding.tvRating.setText(Double.toString(movieArrayList.get(position).getVoteAverage()));
+
+            String imagePath = "https://image.tmdb.org/t/p/w500" + movieArrayList.get(position).getPosterPath();
+
+            Glide.with(binding.ivMovie.getContext())
+                    .load(imagePath)
+                    .into(binding.ivMovie);
+
+//            movieImage = (ImageView)itemView.findViewById(R.id.ivMovie);
+//            movieTitle = (TextView)itemView.findViewById(R.id.tvTitle);
+//            rate = (TextView)itemView.findViewById(R.id.tvRating);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

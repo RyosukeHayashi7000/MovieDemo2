@@ -1,14 +1,15 @@
 package com.example.moviedemo2;
 
 import android.content.res.Configuration;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.example.moviedemo2.Infra.MovieDataService;
 import com.example.moviedemo2.Infra.RetrofitInstance;
 import com.example.moviedemo2.adapter.MovieAdapter;
+import com.example.moviedemo2.databinding.ActivityMainBinding;
 import com.example.moviedemo2.model.Movie;
 import com.example.moviedemo2.model.MovieDBResponse;
 
@@ -21,14 +22,17 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Movie> movies;
-    private RecyclerView recyclerView;
+    //private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
+    private ActivityMainBinding binding;
     //private Listener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         getSupportActionBar().setTitle("TMBD NOW PLAYING MOVIES");
 
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ShowOnRecyclerView() {
 
-        recyclerView = (RecyclerView) findViewById(R.id.rMovie);
+        //recyclerView = (RecyclerView) findViewById(R.id.rMovie);
         movieAdapter = new MovieAdapter(movies, new MovieAdapter.MovieClickListener() {
             @Override
             public void onClick(Movie movie) {
@@ -81,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+            binding.rMovie.setLayoutManager(new GridLayoutManager(this,2));
         }else{
-            recyclerView.setLayoutManager((new GridLayoutManager(this,4)));
-            recyclerView.setHasFixedSize(true);
+            binding.rMovie.setLayoutManager((new GridLayoutManager(this,4)));
+            binding.rMovie.setHasFixedSize(true);
         }
 
-        recyclerView.setAdapter(movieAdapter);
+        binding.rMovie.setAdapter(movieAdapter);
         movieAdapter.notifyDataSetChanged();
 
     }
